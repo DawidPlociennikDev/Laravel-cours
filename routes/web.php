@@ -78,3 +78,34 @@ Route::get('example/all/{id}', function($id) {
 Route::get('example/boot/{X}', function($X) {
     return 'example global X = ' . $X;
 });
+
+Route::get('example5/a/b/{c}', function($c) {
+    return 'ni' . $c . ' ' . $c . 'iekawego, ale...';
+})->name('exe5');
+Route::get('example6', function() {
+    return redirect()->route('exe5', ['c' => 'cz']);
+});
+Route::middleware(['cudownie'])->group(function() {
+    Route::get('example7/{date}', function($date) {
+        return 'Litości. Fakt to nie pogląd! Potwierdzone dnia: ' . $date;
+    })->name('fakt');
+});
+Route::prefix('jestem/prefixem')->group(function() {
+    Route::get('example8', function() {
+        return 'Suchar: Jak nazywa się połączenie papugi i krokodyla kapitana Haka: Polityka.';
+    });
+});
+Route::name('Poli.')->group(function() {
+    Route::get('example9', function() {
+        return 'Czosnek w miodzie z majonezem.';
+    })->name('tyka');
+    Route::get('example10', function() {
+        return 'Otręby z cementem smaku nie zmienią';
+    })->name('morfizm');
+});
+Route::middleware('throttle:2,1')->group(function() {
+    Route::get('example11', function() {
+        return 'Nie tak prędko!';
+    });
+});
+
