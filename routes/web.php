@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+use App\Http\Controllers\FirstController;
+Route::get('/request/example1/{x}/{y}', [FirstController::class, 'ReqRes1']);
+Route::get('/request/example2/{x}/{y}', [FirstController::class, 'ReqRes2']);
+Route::get('/request/example3/{x}/{y}', [FirstController::class, 'ReqRes3']);

@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+use App\Http\Controllers\FirstController;
+Route::post('request/example4/{x}/{y}', [FirstController::class, 'ReqRes4']);
+Route::post('request/example6/{x}/{y}', [FirstController::class, 'ReqRes6']);
