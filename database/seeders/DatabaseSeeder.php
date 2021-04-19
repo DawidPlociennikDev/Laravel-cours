@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Database\Factories\CarFactory;
+use Database\Factories\RepairFactory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Car::factory(5)->create();
+        \App\Models\Repair::factory(5)->create();
         //for ($n=100; --$n;) $this->call(CarSeeder::class);
     }
 }
