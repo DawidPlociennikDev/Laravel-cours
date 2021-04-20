@@ -218,3 +218,94 @@ Route::get('/controllers/4', [SomeController::class, 'optionc']);
 
 use App\Http\Controllers\ToolController;
 Route::resource('srctools', ToolController::class);
+
+Route::get('/collections/1', function() {
+    $toolColl = App\Models\Tool::all();
+    return $toolColl;
+});
+
+Route::get('/collections/2', function() {
+    $toolColl = App\Models\Tool::all();
+    $msg = [];
+    foreach ($toolColl as $tool) {
+        $msg[] = match($tool->description) {
+            "MistyRose" => "Mi styro se gymro",
+            "Ivory" => "I wory potwory",
+            default => "b/d",
+        };
+    }
+    return $msg;
+});
+
+Route::get('/collections/3', function() {
+    $toolColl = App\Models\Tool::all();
+    //return $toolColl->reject(fn($tool)=>$tool->description >= "K")->map(fn($tool)=>$tool->description);
+    //return $toolColl->contains(2) . $toolColl->contains(App\Models\Tool::find(2)) .
+    //(false===$toolColl->contains(1)) . (false===$toolColl->contains(App\Models\Tool::find(1)));
+
+    $fi = App\Models\Tool::where("name", "<", "M")->get();
+    $se = App\Models\Tool::where("name", ">", "g")->get();
+    return $fi->diff($se)->map(fn($t)=>$t->name);
+});
+
+Route::get('/collections/4', function() {
+    $fi = App\Models\Tool::where("name", "<", "Ż")->get()->map(fn($tool)=>$tool->name)->sort();
+    //return $fi;
+
+    $se = App\Models\Tool::where("name", ">=", "C")->get()->map(fn($tool)=>$tool->name)->sort();
+    //return $se;
+
+    //return $fi->concat($se)->sort();
+    //return $fi->diff($se)->sort();
+    //return $fi->intersect($se)->sort();
+
+    $tools = App\Models\Tool::all();
+    //return $tools->find(18)->name;
+    //return $tools->except(18)->map(fn($t)=>$t->name)->sort();
+
+    $tools->fresh();
+    $tools->fresh('toolgroups');
+    //return $tools->find(5)->toolgroups->map(fn($gr)=>$gr->name);
+
+    //return $tools->modelKeys();
+    //return $tools->average("broken");
+
+    return $tools->whereBetween("name", ["A", "C"])->toJson();
+});
+
+use Illuminate\Http\Request;
+Route::get('/cont/1', function(Request $req) {
+    return $req->getClientIp();
+});
+
+use App\Goodluck;
+Route::get('/cont/2', function() {
+    $g = new Goodluck();
+    return $g->darkMzimu();
+});
+
+Route::get('/cont/3', function(Goodluck $g) {
+    return $g->darkMzimu();
+});
+
+Route::get('/cont/4', function() {
+    $g1 = App::make(Goodluck::class);
+    $g2 = App::make(Goodluck::class);
+    $g3 = new Goodluck();
+    return var_dump($g1, true) . " " . var_dump($g2, true) . " " . var_dump($g3, true);
+});
+
+use App\Badluck;
+Route::get('/cont/5', function(Badluck $b1) {
+    $b2 = App::make(Badluck::class);
+    $b3 = new Badluck();
+    return var_dump($b1, true) . " " .
+            var_dump($b2, true) . " " .
+            var_dump($b3, true) .
+            $b1->brightMzimu() .
+            $b2->brightMzimu() .
+            $b3 ->brightMzimu() .
+            $b1->getSecret() .
+            $b2->getSecret() .
+            $b3->getSecret();
+});
